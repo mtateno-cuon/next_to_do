@@ -1,0 +1,36 @@
+services:
+  frontend:
+    container_name: next-to-do-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: yarn dev -p 4000
+    ports:
+      - "8000:4000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+  backend:
+    container_name: next-to-do-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+  db:
+    container_name: next-to-do-db
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+volumes:
+  db-data:
