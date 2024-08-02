@@ -4,9 +4,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    command: yarn dev -p 4000
     ports:
       - "8000:4000"
+      - "4010:4010"
     volumes:
       - ./frontend:/app
     depends_on:
