@@ -8,4 +8,9 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 4000 4010
+
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]

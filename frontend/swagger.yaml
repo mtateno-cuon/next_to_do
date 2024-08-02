@@ -1,0 +1,215 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: HP API
+paths:
+  /hp/news:
+    get:
+      summary: Get all news
+      responses:
+        '200':
+          description: A list of news
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/News'
+    post:
+      summary: Create a news
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/News'
+      responses:
+        '201':
+          description: The created news
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+  /hp/news/{id}:
+    get:
+      summary: Get a news by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The news ID
+      responses:
+        '200':
+          description: A news
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+    put:
+      summary: Update a news by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The news ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/News'
+      responses:
+        '200':
+          description: The updated news
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+    delete:
+      summary: Delete a news by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The news ID
+      responses:
+        '204':
+          description: No content
+  /hp/news/{news_id}/sections:
+    get:
+      summary: Get all sections for a news
+      parameters:
+        - in: path
+          name: news_id
+          schema:
+            type: integer
+          required: true
+          description: The news ID
+      responses:
+        '200':
+          description: A list of sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Section'
+    post:
+      summary: Create a section for a news
+      parameters:
+        - in: path
+          name: news_id
+          schema:
+            type: integer
+          required: true
+          description: The news ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Section'
+      responses:
+        '201':
+          description: The created section
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+  /hp/sections/{id}:
+    get:
+      summary: Get a section by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The section ID
+      responses:
+        '200':
+          description: A section
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+    put:
+      summary: Update a section by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The section ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Section'
+      responses:
+        '200':
+          description: The updated section
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+    delete:
+      summary: Delete a section by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The section ID
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    News:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        category:
+          type: integer
+          enum: [0, 1]
+        publish_date:
+          type: string
+          format: date-time
+        is_published:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Section:
+      type: object
+      properties:
+        id:
+          type: integer
+        news_id:
+          type: integer
+        subtitle:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
